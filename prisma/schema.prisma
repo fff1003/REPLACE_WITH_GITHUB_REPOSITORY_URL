@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id              Int      @id @default(autoincrement())
+  title           String
+  slug            String   @unique
+  canonicalUrl    String
+  dateDisplay     String?
+  dateISO         DateTime?
+  excerpt         String?
+  sourcePage      String
+  topics          String
+  lastSeenAt      DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  shares          ShareLink[]
+}
+
+model Topic {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  url       String
+  postCount Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShareLink {
+  id          Int      @id @default(autoincrement())
+  shortId     String   @unique
+  postId      Int
+  destination String
+  utmUrl      String
+  createdAt   DateTime @default(now())
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  clicks      ClickEvent[]
+}
+
+model ClickEvent {
+  id            Int      @id @default(autoincrement())
+  shortId       String
+  destination   String
+  referrer      String?
+  userAgentHash String?
+  createdAt     DateTime @default(now())
+  shareLink     ShareLink @relation(fields: [shortId], references: [shortId], onDelete: Cascade)
+}
+
+model Subscriber {
+  id                  Int      @id @default(autoincrement())
+  email               String   @unique
+  confirmedAt         DateTime?
+  confirmToken        String   @unique
+  frequency           String   @default("daily")
+  wantsWebPush        Boolean  @default(false)
+  webPushSubscription String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model ScrapeState {
+  id             Int      @id @default(1)
+  lastRunAt      DateTime?
+  nextAllowedAt  DateTime?
+  failureCount   Int      @default(0)
+  lastStatusNote String?
+}
