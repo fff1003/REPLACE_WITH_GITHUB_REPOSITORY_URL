@@ -1,0 +1,43 @@
+{
+  "name": "religiousliberty-tv-reader",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev --name init",
+    "db:seed": "tsx prisma/seed.ts",
+    "scrape": "tsx scripts/run-scrape.ts",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.0.0",
+    "cheerio": "^1.0.0",
+    "csv-stringify": "^6.5.2",
+    "date-fns": "^4.1.0",
+    "nanoid": "^5.1.5",
+    "next": "14.2.0",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^7.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.13.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "prisma": "^6.0.0",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.1"
+  }
+}
